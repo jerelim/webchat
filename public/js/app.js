@@ -6,7 +6,7 @@ socket.on('connect',function () {
 
 socket.on('message',function (message) {
 	// console.log('new message');
-	var timestampMoment=moment.utc(message.timestamp).local().format('LT');
+	var timestampMoment= moment.utc(message.timestamp).local().format('LT');
 	$('#chat').prepend("<p>" + timestampMoment + " : " + message.text + "</p>");
 });
 
