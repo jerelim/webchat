@@ -2,11 +2,17 @@ var socket = io();
 // handles submitting of new message
 var name, room;
 var $form = $('#message-form');
-room = getQueryVariable('room') || "";
+room = getQueryVariable('room') || "default";
 name =getQueryVariable('name') || "Anon";
+
+$('#room-name').text( $('#room-name').text() + ": " + room );
 
 socket.on('connect',function () {
 	console.log('connected to socket.io server!');
+	socket.emit('joinRoom',{
+		name:name,
+		room:room
+	});
 });
 
 socket.on('message',function (message) {
@@ -22,8 +28,7 @@ $form.on('submit',function (event) {
 	event.preventDefault();
 	socket.emit('message',{
 		text:$form.find('input[name=message]').val(),
-		name:name,
-		room:room
+		name:name
 	});
 	$form.find('input[name=message]').val(''); 
 });

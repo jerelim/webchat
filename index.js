@@ -7,18 +7,26 @@ var moment = require('moment');
 
 app.use(express.static(__dirname + '/public'));
 
+var clientInfo={};
+
 io.on('connection',function (socket) {
 	console.log('user connected via socket.io');
 
-	socket.on('message',function (message) {
-		console.log('Message recieved' + message.text);
-		// socket.broadcast.emit('message',message);
-		io.emit('message',{
-			text:message.text,
-			timestamp:moment().valueOf(),
-			name:message.name,
-			room:message.room
+	socket.on('joinRoom',function (req) {
+		clientInfo[socket.id] = req;
+		socket.join(req.room);
+		io.to(req.room).emit('message', {
+			name: 'System',
+			text: req.name + ' has joined the room!',
+			timestamp: moment().valueOf()
 		});
+	});
+
+	socket.on('message',function (message) {
+		console.log('Message recieved ' + message.text);
+		// socket.broadcast.emit('message',message);
+		message.timestamp = moment().valueOf();
+		io.to(clientInfo[socket.id].room).emit('message', message);
 	});
 
 	socket.emit('message',{
