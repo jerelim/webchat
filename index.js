@@ -15,13 +15,16 @@ io.on('connection',function (socket) {
 		// socket.broadcast.emit('message',message);
 		io.emit('message',{
 			text:message.text,
-			timestamp:moment().valueOf()
+			timestamp:moment().valueOf(),
+			name:message.name,
+			room:message.room
 		});
 	});
 
 	socket.emit('message',{
 		text: 'Welcome to the chat application!',
-		timestamp:moment().valueOf()
+		timestamp:moment().valueOf(),
+		name:'System'
 	});
 });
 
