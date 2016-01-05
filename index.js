@@ -71,7 +71,7 @@ io.on('connection',function (socket) {
 	});
 
 	socket.emit('message',{
-		text: 'Welcome to the chat application!',
+		text: 'Welcome to the Jweb chat! <br> Use @currentUsers to view all users in the room',
 		timestamp:moment().valueOf(),
 		name:'System'
 	});

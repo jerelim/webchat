@@ -18,9 +18,12 @@ socket.on('connect',function () {
 socket.on('message',function (message) {
 	// console.log('new message');
 	var timestampMoment= moment.utc(message.timestamp).local().format('LT');
-	var chat = $('#chat');
-	chat.prepend("<p>" + message.text + "</p>");
-	chat.prepend("<p><b>" + message.name + ' @ ' + timestampMoment + " : </b></p>");
+	var $messages = $('#chat');
+	var $message= $('<li class = "list-group-item "> </li>');
+
+	$message.prepend("<p>" + message.text + "</p>");
+	$message.prepend("<p><b>" + message.name + ' @ ' + timestampMoment + " : </b></p>");
+	$messages.prepend($message);
 });
 
 
