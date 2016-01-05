@@ -29,10 +29,12 @@ socket.on('message',function (message) {
 
 $form.on('submit',function (event) {
 	event.preventDefault();
-	socket.emit('message',{
-		text:$form.find('input[name=message]').val(),
-		name:name
-	});
-	$form.find('input[name=message]').val(''); 
+	if ($form.find('input[name=message]').val().trim().length > 0 ) {
+		socket.emit('message',{
+			text:$form.find('input[name=message]').val(),
+			name:name
+		});
+		$form.find('input[name=message]').val(''); 
+	}
 });
 
