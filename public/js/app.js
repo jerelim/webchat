@@ -2,7 +2,7 @@ var socket = io();
 // handles submitting of new message
 var name, room;
 var $form = $('#message-form');
-room = getQueryVariable('room') || "default";
+room = getQueryVariable('room') || "Default";
 name =getQueryVariable('name') || "Anon";
 
 $('#room-name').text( $('#room-name').text() + ": " + room );
