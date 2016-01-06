@@ -13,7 +13,7 @@ if (env ==='production') {
 		'storage': __dirname + '/data/jweb-chat.sqlite'
 	});
 }
-console.log(env);
+
 var db = {};
 
 db.message = sequelize.import(__dirname  + '/models/message.js');
