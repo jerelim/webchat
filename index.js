@@ -77,7 +77,7 @@ io.on('connection',function (socket) {
 	socket.on('message',function (message) {
 		console.log('Message recieved ' + message.text);
 		// socket.broadcast.emit('message',message);
-		if (message.text === "@currentUsers") {
+		if (message.text === "@users") {
 			sendCurrentUsers(socket);
 		}else{
 			// send default code
@@ -90,7 +90,7 @@ io.on('connection',function (socket) {
 	});
 
 	socket.emit('message',{
-		text: 'Welcome to Jweb chat! <br> Use @currentUsers to view all users in the room',
+		text: 'Welcome to Jweb chat! <br> Use @users to view all users in the room',
 		timestamp:moment().valueOf(),
 		name:'System'
 	});
