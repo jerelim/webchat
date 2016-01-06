@@ -4,10 +4,26 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
+var db= require('./db.js');
 
 app.use(express.static(__dirname + '/public'));
 
 var clientInfo={};
+
+// GET /messages/room
+app.get('/messages/:room', function (req, res) {
+    var room = req.params.room;
+    var where = {room:room};
+    db.message.findAll({where : where}).then(function (messages) {
+    	if (messages.length > 0) {
+    		res.json(messages);
+    	} else{
+    		res.status(404).json({error:'no results found'});
+    	}
+    },function (error) {
+    	res.status(500);
+    });
+});
 
 // sends current users to provided socket
 function sendCurrentUsers (socket) {
@@ -66,7 +82,10 @@ io.on('connection',function (socket) {
 		}else{
 			// send default code
 			message.timestamp = moment().valueOf();
+			// broadcast the message
 			io.to(clientInfo[socket.id].room).emit('message', message);
+			// insert the message to the db , dont care bout return promise for now
+			db.message.create(message);
 		}
 	});
 
@@ -78,6 +97,11 @@ io.on('connection',function (socket) {
 });
 
 
-http.listen(PORT ,function () {
-	console.log('server started');
+
+db.sequelize.sync().then(function () {
+
+	http.listen(PORT ,function () {
+		console.log('server started');
+	});
+	
 });
