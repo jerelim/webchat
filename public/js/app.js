@@ -16,10 +16,11 @@ $.get( './messages/' + room, function( data ) {
 		data.forEach(function (message) {
 			// console.log(message);
 			var timestampMoment= moment.utc(parseInt(message.timestamp)).local().format('LT');
+			// create new DOM element on the fly , add data to add
 			var $message= $('<li class = "list-group-item "> </li>');
 			$message.prepend("<p>" + message.text + "</p>");
 			$message.prepend("<p><b>" + message.name + ' @ ' + timestampMoment + " : </b></p>");
-
+			// lastly add it into the DOM
 			$messages.prepend($message);
 		});
 	}
@@ -37,10 +38,11 @@ socket.on('message',function (message) {
 	// console.log('new message');
 	var timestampMoment= moment.utc(message.timestamp).local().format('LT');
 	var $messages = $('#chat');
+	// create new DOM element on the fly , add data to add
 	var $message= $('<li class = "list-group-item "> </li>');
-
 	$message.prepend("<p>" + message.text + "</p>");
 	$message.prepend("<p><b>" + message.name + ' @ ' + timestampMoment + " : </b></p>");
+	// lastly add it into the DOM
 	$messages.prepend($message);
 });
 
