@@ -98,7 +98,7 @@ io.on('connection',function (socket) {
 
 
 
-db.sequelize.sync().then(function () {
+db.sequelize.sync({force:true}).then(function () {
 
 	http.listen(PORT ,function () {
 		console.log('server started');
